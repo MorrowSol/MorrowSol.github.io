@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon shortcut" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
+<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+<link fetchpriority="low" href="/site.webmanifest" rel="manifest" />
+
+  <title>Neovim – MorrowSol&#39;s blog</title>
+  <meta name="description" content="neovim的配置, 使用lazy.vim的包管理器,使用以模块为单位的文件配置
+我的配置文件: https://github.com/MorrowSol/nvim" />
+
+  
+
+<meta property="og:title" content="Neovim" />
+<meta property="og:description" content="neovim的配置, 使用lazy.vim的包管理器,使用以模块为单位的文件配置
+我的配置文件: https://github.com/MorrowSol/nvim" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.org/blog/neovim/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2023-12-14T17:36:35+08:00" />
+<meta property="article:modified_time" content="2023-12-14T17:36:35+08:00" />
+
+  <meta itemprop="name" content="Neovim">
+<meta itemprop="description" content="neovim的配置, 使用lazy.vim的包管理器,使用以模块为单位的文件配置
+我的配置文件: https://github.com/MorrowSol/nvim"><meta itemprop="datePublished" content="2023-12-14T17:36:35+08:00" />
+<meta itemprop="dateModified" content="2023-12-14T17:36:35+08:00" />
+<meta itemprop="wordCount" content="2146">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Neovim"/>
+<meta name="twitter:description" content="neovim的配置, 使用lazy.vim的包管理器,使用以模块为单位的文件配置
+我的配置文件: https://github.com/MorrowSol/nvim"/>
+
+    <link rel="preload" href="/css/compiled/main.min.094447ae05896a4615e08d3ae2342011a66e2393febfa3a4befc6e8ff0d38635.css" as="style" integrity="sha256-CURHrgWJakYV4I064jQgEaZuI5P&#43;v6Okvvxuj/DThjU=" />
+    <link href="/css/compiled/main.min.094447ae05896a4615e08d3ae2342011a66e2393febfa3a4befc6e8ff0d38635.css" rel="stylesheet" integrity="sha256-CURHrgWJakYV4I064jQgEaZuI5P&#43;v6Okvvxuj/DThjU=" />
+
+
+
+  <link href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" rel="stylesheet" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU=" />
+
+
+
+  
+
+
+  <script>
+     
+    const defaultTheme = 'system';
+
+    const setDarkTheme = () => {
+      document.documentElement.classList.add("dark");
+      document.documentElement.style.colorScheme = "dark";
+    }
+    const setLightTheme = () => {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.style.colorScheme = "light";
+    }
+
+    if ("color-theme" in localStorage) {
+      localStorage.getItem("color-theme") === "dark" ? setDarkTheme() : setLightTheme();
+    } else {
+      defaultTheme === "dark" ? setDarkTheme() : setLightTheme();
+      if (defaultTheme === "system") {
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? setDarkTheme() : setLightTheme();
+      }
+    }
+  </script>
+
+  
+</head>
+<body dir="ltr"><div class="nav-container sticky top-0 z-20 w-full bg-transparent print:hidden">
+  <div class="nav-container-blur pointer-events-none absolute z-[-1] h-full w-full bg-white dark:bg-dark shadow-[0_2px_4px_rgba(0,0,0,.02),0_1px_0_rgba(0,0,0,.06)] contrast-more:shadow-[0_0_0_1px_#000] dark:shadow-[0_-1px_0_rgba(255,255,255,.1)_inset] contrast-more:dark:shadow-[0_0_0_1px_#fff]"></div>
+
+  <nav class="mx-auto flex items-center justify-end gap-2 h-16 px-6 max-w-[90rem]">
+    <a class="flex items-center hover:opacity-75 ltr:mr-auto rtl:ml-auto" href="/">
+        <img class="block dark:hidden" src="/images/logo.svg" alt="MorrowSol&#39;s blog" height="20" width="20" />
+        <img class="hidden dark:block" src="/images/logo.svg" alt="MorrowSol&#39;s blog" height="20" width="20" />
+        <span class="mx-2 font-extrabold inline select-none" title="MorrowSol&#39;s blog">MorrowSol&#39;s blog</span>
+    </a><a
+            title="Documentation"
+            href="/docs"
+            
+            class="text-sm contrast-more:text-gray-700 contrast-more:dark:text-gray-100 relative -ml-2 hidden whitespace-nowrap p-2 md:inline-block text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            <span class="text-center">Documentation</span>
+          </a><a
+            title="Blog"
+            href="/blog"
+            
+            class="text-sm contrast-more:text-gray-700 contrast-more:dark:text-gray-100 relative -ml-2 hidden whitespace-nowrap p-2 md:inline-block font-medium"
+          >
+            <span class="text-center">Blog</span>
+          </a><a
+            title="About"
+            href="/about"
+            
+            class="text-sm contrast-more:text-gray-700 contrast-more:dark:text-gray-100 relative -ml-2 hidden whitespace-nowrap p-2 md:inline-block text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            <span class="text-center">About</span>
+          </a><div class="search-wrapper relative md:w-64">
+  <div class="relative flex items-center text-gray-900 contrast-more:text-gray-800 dark:text-gray-300 contrast-more:dark:text-gray-300">
+    <input
+      placeholder="Search..."
+      class="search-input block w-full appearance-none rounded-lg px-3 py-2 transition-colors text-base leading-tight md:text-sm bg-black/[.05] dark:bg-gray-50/10 focus:bg-white dark:focus:bg-dark placeholder:text-gray-500 dark:placeholder:text-gray-400 contrast-more:border contrast-more:border-current"
+      type="search"
+      value=""
+      spellcheck="false"
+    />
+    <kbd
+      class="absolute my-1.5 select-none ltr:right-1.5 rtl:left-1.5 h-5 rounded bg-white px-1.5 font-mono text-[10px] font-medium text-gray-500 border dark:border-gray-100/20 dark:bg-dark/50 contrast-more:border-current contrast-more:text-current contrast-more:dark:border-current items-center gap-1 transition-opacity pointer-events-none hidden sm:flex"
+    >
+      CTRL K
+    </kbd>
+  </div>
+
+  <div>
+    <ul
+      class="search-results hextra-scrollbar hidden border border-gray-200 bg-white text-gray-100 dark:border-neutral-800 dark:bg-neutral-900 absolute top-full z-20 mt-2 overflow-auto overscroll-contain rounded-xl py-2.5 shadow-xl max-h-[min(calc(50vh-11rem-env(safe-area-inset-bottom)),400px)] md:max-h-[min(calc(100vh-5rem-env(safe-area-inset-bottom)),400px)] inset-x-0 ltr:md:left-auto rtl:md:right-auto contrast-more:border contrast-more:border-gray-900 contrast-more:dark:border-gray-50 w-screen min-h-[100px] max-w-[min(calc(100vw-2rem),calc(100%+20rem))]"
+      style="transition: max-height 0.2s ease 0s;"
+    ></ul>
+  </div>
+</div>
+<a class="p-2 text-current" target="_blank" rel="noreferer" href="https://github.com/MorrowSol" title="GitHub"><svg height=24 fill="currentColor" viewBox="3 3 18 18">
+  <path d="M12 3C7.0275 3 3 7.12937 3 12.2276C3 16.3109 5.57625 19.7597 9.15374 20.9824C9.60374 21.0631 9.77249 20.7863 9.77249 20.5441C9.77249 20.3249 9.76125 19.5982 9.76125 18.8254C7.5 19.2522 6.915 18.2602 6.735 17.7412C6.63375 17.4759 6.19499 16.6569 5.8125 16.4378C5.4975 16.2647 5.0475 15.838 5.80124 15.8264C6.51 15.8149 7.01625 16.4954 7.18499 16.7723C7.99499 18.1679 9.28875 17.7758 9.80625 17.5335C9.885 16.9337 10.1212 16.53 10.38 16.2993C8.3775 16.0687 6.285 15.2728 6.285 11.7432C6.285 10.7397 6.63375 9.9092 7.20749 9.26326C7.1175 9.03257 6.8025 8.08674 7.2975 6.81794C7.2975 6.81794 8.05125 6.57571 9.77249 7.76377C10.4925 7.55615 11.2575 7.45234 12.0225 7.45234C12.7875 7.45234 13.5525 7.55615 14.2725 7.76377C15.9937 6.56418 16.7475 6.81794 16.7475 6.81794C17.2424 8.08674 16.9275 9.03257 16.8375 9.26326C17.4113 9.9092 17.76 10.7281 17.76 11.7432C17.76 15.2843 15.6563 16.0687 13.6537 16.2993C13.98 16.5877 14.2613 17.1414 14.2613 18.0065C14.2613 19.2407 14.25 20.2326 14.25 20.5441C14.25 20.7863 14.4188 21.0746 14.8688 20.9824C16.6554 20.364 18.2079 19.1866 19.3078 17.6162C20.4077 16.0457 20.9995 14.1611 21 12.2276C21 7.12937 16.9725 3 12 3Z"></path>
+</svg>
+<span class="sr-only">GitHub</span>
+          </a><button type="button" aria-label="Menu" class="hamburger-menu -mr-2 rounded p-2 active:bg-gray-400/20 md:hidden"><svg height=24 fill="none" viewBox="0 0 24 24" stroke="currentColor"><g><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8H20"></path></g><g><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16H20"></path></g></svg></button>
+  </nav>
+</div>
+
+  <div class="mx-auto flex max-w-screen-xl">
+    <div class="mobile-menu-overlay [transition:background-color_1.5s_ease] fixed inset-0 z-10 bg-black/80 dark:bg-black/60 hidden"></div>
+<aside class="sidebar-container flex flex-col print:hidden md:top-16 md:shrink-0 md:w-64 md:self-start max-md:[transform:translate3d(0,-100%,0)] md:hidden xl:block">
+  
+  <div class="px-4 pt-4 md:hidden">
+    <div class="search-wrapper relative md:w-64">
+  <div class="relative flex items-center text-gray-900 contrast-more:text-gray-800 dark:text-gray-300 contrast-more:dark:text-gray-300">
+    <input
+      placeholder="Search..."
+      class="search-input block w-full appearance-none rounded-lg px-3 py-2 transition-colors text-base leading-tight md:text-sm bg-black/[.05] dark:bg-gray-50/10 focus:bg-white dark:focus:bg-dark placeholder:text-gray-500 dark:placeholder:text-gray-400 contrast-more:border contrast-more:border-current"
+      type="search"
+      value=""
+      spellcheck="false"
+    />
+    <kbd
+      class="absolute my-1.5 select-none ltr:right-1.5 rtl:left-1.5 h-5 rounded bg-white px-1.5 font-mono text-[10px] font-medium text-gray-500 border dark:border-gray-100/20 dark:bg-dark/50 contrast-more:border-current contrast-more:text-current contrast-more:dark:border-current items-center gap-1 transition-opacity pointer-events-none hidden sm:flex"
+    >
+      CTRL K
+    </kbd>
+  </div>
+
+  <div>
+    <ul
+      class="search-results hextra-scrollbar hidden border border-gray-200 bg-white text-gray-100 dark:border-neutral-800 dark:bg-neutral-900 absolute top-full z-20 mt-2 overflow-auto overscroll-contain rounded-xl py-2.5 shadow-xl max-h-[min(calc(50vh-11rem-env(safe-area-inset-bottom)),400px)] md:max-h-[min(calc(100vh-5rem-env(safe-area-inset-bottom)),400px)] inset-x-0 ltr:md:left-auto rtl:md:right-auto contrast-more:border contrast-more:border-gray-900 contrast-more:dark:border-gray-50 w-screen min-h-[100px] max-w-[min(calc(100vw-2rem),calc(100%+20rem))]"
+      style="transition: max-height 0.2s ease 0s;"
+    ></ul>
+  </div>
+</div>
+
+  </div>
+  <div class="hextra-scrollbar overflow-y-auto overflow-x-hidden p-4 grow md:h-[calc(100vh-var(--navbar-height)-var(--menu-height))]">
+    <ul class="flex flex-col gap-1 md:hidden">
+      
+      
+          <li class="open"><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/blog/"
+    
+  >Blog
+        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg></span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class='relative flex flex-col gap-1 before:absolute before:inset-y-1 before:w-px before:bg-gray-200 before:content-[""] ltr:ml-3 ltr:pl-3 ltr:before:left-0 rtl:mr-3 rtl:pr-3 rtl:before:right-0 dark:before:bg-neutral-800'><li class="flex flex-col open"><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      sidebar-active-item bg-primary-100 font-semibold text-primary-800 contrast-more:border contrast-more:border-primary-500 dark:bg-primary-400/10 dark:text-primary-600 contrast-more:dark:border-primary-500"
+    href="/blog/neovim/"
+    
+  >Neovim
+    </a>
+  
+    <ul class='flex flex-col gap-1 relative before:absolute before:inset-y-1 before:w-px before:bg-gray-200 before:content-[""] dark:before:bg-neutral-800 ltr:pl-3 ltr:before:left-0 rtl:pr-3 rtl:before:right-0 ltr:ml-3 rtl:mr-3'><li>
+              <a
+                href="#%e5%86%99%e4%bb%a3%e7%a0%81%e9%9c%80%e8%a6%81%e7%9a%84%e5%8a%9f%e8%83%bd"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >写代码需要的功能</a>
+            </li>
+          <li>
+              <a
+                href="#%e5%ae%89%e8%a3%85"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >安装</a>
+            </li>
+          <li>
+              <a
+                href="#neovim%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >neovim的配置文件</a>
+            </li>
+          <li>
+              <a
+                href="#lazyvim%e7%9a%84%e5%ae%89%e8%a3%85"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >lazy.vim的安装</a>
+            </li>
+          <li>
+              <a
+                href="#%e6%8f%92%e4%bb%b6"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >插件</a>
+            </li>
+          <li>
+              <a
+                href="#lsp"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >lsp</a>
+            </li>
+          <li>
+              <a
+                href="#dap"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >dap</a>
+            </li>
+          <li>
+              <a
+                href="#code"
+                class="flex rounded px-2 py-1.5 text-sm transition-colors [word-break:break-word] cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:border gap-2 before:opacity-25 before:content-['#'] text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:text-gray-900 contrast-more:dark:text-gray-50 contrast-more:border-transparent contrast-more:hover:border-gray-900 contrast-more:dark:hover:border-gray-50"
+              >code</a>
+            </li>
+          </ul>
+  
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/blog/hyprland%E8%BD%AF%E4%BB%B6/"
+    
+  >Hyprland软件
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/blog/git/"
+    
+  >git
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/blog/hugoblog%E6%90%AD%E5%BB%BA/"
+    
+  >hugoblog搭建
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/blog/vscode/"
+    
+  >vscode
+    </a>
+              
+            </li></ul>
+      </div></li>
+          <li class=""><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/"
+    
+  >Documentation
+        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg></span>
+    </a><div class="ltr:pr-0 overflow-hidden">
+        <ul class='relative flex flex-col gap-1 before:absolute before:inset-y-1 before:w-px before:bg-gray-200 before:content-[""] ltr:ml-3 ltr:pl-3 ltr:before:left-0 rtl:mr-3 rtl:pr-3 rtl:before:right-0 dark:before:bg-neutral-800'><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/linux/"
+    
+  >Linux
+        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-[18px] min-w-[18px] rounded-sm p-0.5 hover:bg-gray-800/5 dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="origin-center transition-transform rtl:-rotate-180"></path></svg></span>
+    </a>
+              <div class="ltr:pr-0 overflow-hidden">
+        <ul class='relative flex flex-col gap-1 before:absolute before:inset-y-1 before:w-px before:bg-gray-200 before:content-[""] ltr:ml-3 ltr:pl-3 ltr:before:left-0 rtl:mr-3 rtl:pr-3 rtl:before:right-0 dark:before:bg-neutral-800'><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/linux/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"
+    
+  >深度学习环境搭建
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/linux/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+    
+  >Linux常用命令
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/linux/linux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"
+    
+  >Linux常用软件
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/linux/archlinux/"
+    
+  >Archlinux安装
+    </a>
+              
+            </li><li class="flex flex-col "><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/docs/linux/hyprland/"
+    
+  >Hyprland安装
+    </a>
+              
+            </li></ul>
+      </div>
+            </li></ul>
+      </div></li>
+          <li class=""><a
+    class="flex items-center justify-between gap-2 cursor-pointer rounded px-2 py-1.5 text-sm transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      text-gray-500 hover:bg-gray-100 hover:text-gray-900 contrast-more:border contrast-more:border-transparent contrast-more:text-gray-900 contrast-more:hover:border-gray-900 dark:text-neutral-400 dark:hover:bg-primary-100/5 dark:hover:text-gray-50 contrast-more:dark:text-gray-50 contrast-more:dark:hover:border-gray-50"
+    href="/about/"
+    
+  >
+    </a></li>
+    </ul>
+
+    <div class="max-xl:hidden h-0 w-64 shrink-0"></div></div>
+  
+  
+    <div class="md:hidden  sticky bottom-0 bg-white dark:bg-dark mx-4 py-4 shadow-[0_-12px_16px_#fff] flex items-center gap-2 dark:border-neutral-800 dark:shadow-[0_-12px_16px_#111] contrast-more:border-neutral-400 contrast-more:shadow-none contrast-more:dark:shadow-none border-t" data-toggle-animation="show"><div class="flex grow flex-col"><button
+  title="Change theme"
+  data-theme="light"
+  class="theme-toggle group h-7 rounded-md px-2 text-left text-xs font-medium text-gray-600 transition-colors dark:text-gray-400 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-primary-100/5 dark:hover:text-gray-50"
+  type="button"
+  aria-label="Change theme"
+>
+  <div class="flex items-center gap-2 capitalize"><svg height=12 class="group-data-[theme=light]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="group-data-[theme=light]:hidden">Light</span><svg height=12 class="group-data-[theme=dark]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg><span class="group-data-[theme=dark]:hidden">Dark</span></div>
+</button>
+</div></div></aside>
+    
+<nav class="hextra-toc order-last hidden w-64 shrink-0 xl:block print:hidden px-4" aria-label="table of contents">
+    <div class="hextra-scrollbar sticky top-16 overflow-y-auto pr-4 pt-6 text-sm [hyphens:auto] max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:-mr-4 rtl:-ml-4"><p class="mb-4 font-semibold tracking-tight">On this page</p><ul>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#%e5%86%99%e4%bb%a3%e7%a0%81%e9%9c%80%e8%a6%81%e7%9a%84%e5%8a%9f%e8%83%bd">写代码需要的功能
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#%e5%ae%89%e8%a3%85">安装
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#neovim%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">neovim的配置文件
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#%e6%a0%b8%e5%bf%83%e6%96%87%e4%bb%b6">核心文件
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#lazyvim%e7%9a%84%e5%ae%89%e8%a3%85">lazy.vim的安装
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#%e6%8f%92%e4%bb%b6%e5%8a%a0%e8%bd%bd">插件加载
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#%e6%8f%92%e4%bb%b6">插件
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#lualine">lualine
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#bufferline">bufferline
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-tree">nvim-tree
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#%e4%b8%bb%e9%a2%98">主题
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#telescope">telescope
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#which-key">which-key
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#flash">flash
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#persistence">persistence
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#toggleterm">toggleterm
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#indent-blankline">indent-blankline
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#lsp">lsp
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#mason">mason
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-lspconfig">nvim-lspconfig
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-treesitter">nvim-treesitter
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#rainbow-delimiters">rainbow-delimiters
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-cmp">nvim-cmp
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#dap">dap
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-dap">nvim-dap
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-dap-ui">nvim-dap-ui
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#nvim-dap-virtual-text">nvim-dap-virtual-text
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="font-semibold inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#code">code
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#comment">comment
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#conform">conform
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#mini">mini
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#gitsigns">gitsigns
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#trouble">trouble
+        </a>
+      </li>
+      <li class="my-2 scroll-my-6 scroll-py-6">
+        <a class="ltr:pl-4 rtl:pr-4 inline-block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300 contrast-more:text-gray-900 contrast-more:underline contrast-more:dark:text-gray-50 w-full break-words" href="#coderunnner">coderunnner
+        </a>
+      </li></ul>
+      <div class="mt-8 border-t bg-white pt-8 shadow-[0_-12px_16px_white] dark:bg-dark dark:shadow-[0_-12px_16px_#111] sticky bottom-0 flex flex-col items-start gap-2 pb-8 dark:border-neutral-800 contrast-more:border-t contrast-more:border-neutral-400 contrast-more:shadow-none contrast-more:dark:border-neutral-400">
+        <button aria-hidden="true" id="backToTop" onClick="scrollUp();" class="transition-all transition duration-75 opacity-0 text-xs font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 contrast-more:text-gray-800 contrast-more:dark:text-gray-50">
+          <span>Scroll to top</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline ml-1 h-3.5 w-3.5 border rounded-full border-gray-500 hover:border-gray-900 dark:border-gray-400 dark:hover:border-gray-100 contrast-more:border-gray-800 contrast-more:dark:border-gray-50">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+    <article class="w-full break-words flex min-h-[calc(100vh-var(--navbar-height))] min-w-0 justify-center pb-8 pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+      <main class="w-full min-w-0 max-w-6xl px-6 pt-4 md:px-12">
+        <div class="mt-1.5 flex items-center gap-1 overflow-hidden text-sm text-gray-500 dark:text-gray-400 contrast-more:text-current">
+      <div class="whitespace-nowrap transition-colors min-w-[24px] overflow-hidden text-ellipsis hover:text-gray-900 dark:hover:text-gray-100">
+        <a href="https://example.org/blog/">Blog</a>
+      </div><svg class="w-3.5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg><div class="whitespace-nowrap transition-colors font-medium text-gray-700 contrast-more:font-bold contrast-more:text-current dark:text-gray-100 contrast-more:dark:text-current">Neovim</div>
+</div>
+
+        <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Neovim</h1>
+        <div class="mt-4 mb-16 text-gray-500 text-sm flex items-center flex-wrap gap-y-2"><span class="mr-1">December 14, 2023</span></div>
+        <div class="content">
+          <p>neovim的配置, 使用lazy.vim的包管理器,使用以模块为单位的文件配置</p>
+<p>我的配置文件: <a href="https://github.com/MorrowSol/nvim" target="_blank" rel="noopener">https://github.com/MorrowSol/nvim</a></p>
+<h2>写代码需要的功能<span class="absolute -mt-20" id="写代码需要的功能"></span>
+    <a href="#%e5%86%99%e4%bb%a3%e7%a0%81%e9%9c%80%e8%a6%81%e7%9a%84%e5%8a%9f%e8%83%bd" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><ul>
+<li><input checked="" disabled="" type="checkbox"> 代码格式化</li>
+<li><input checked="" disabled="" type="checkbox"> 代码高亮</li>
+<li><input checked="" disabled="" type="checkbox"> 代码补全</li>
+<li><input checked="" disabled="" type="checkbox"> 调试功能</li>
+<li><input checked="" disabled="" type="checkbox"> 注释</li>
+<li><input checked="" disabled="" type="checkbox"> coderunner快捷运行代码</li>
+<li><input checked="" disabled="" type="checkbox"> lsp设置includepath</li>
+<li><input checked="" disabled="" type="checkbox"> 自定义snippets脚本</li>
+<li><input checked="" disabled="" type="checkbox"> 终端显示</li>
+<li><input checked="" disabled="" type="checkbox"> git ui</li>
+</ul>
+<h2>安装<span class="absolute -mt-20" id="安装"></span>
+    <a href="#%e5%ae%89%e8%a3%85" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>复制nvim配置文件</p>
+<p>外部安装 ripgrep,fd,lazygit</p>
+<h2>neovim的配置文件<span class="absolute -mt-20" id="neovim的配置文件"></span>
+    <a href="#neovim%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>neovim使用lua作为配置文件,以init.lua文件作为配置文件入口</p>
+<p>lua的包导入:require(&ldquo;aa.xx&rdquo;)</p>
+<p>aa分别是目录路径可以递归 aa.bb.cc.dd.ee</p>
+<p>xx是lua文件的文件名,不需要xx.lua</p>
+<p>neovim可以默认从lua文件导入包,也就是可以创建lua的文件夹,lua下的文件可以直接导入</p>
+<p>如:  lua/config/keymaps.lua</p>
+<p>可以在init.lua中直接使用 require(&ldquo;config.keymaps&rdquo;)导入</p>
+<p>多种写法,lua都支持</p>
+<ul>
+<li>require(&ldquo;xxx&rdquo;)  = require(&lsquo;xxx&rsquo;) = require&quot;xxx&quot; = require&rsquo;xxx&rsquo;</li>
+<li>config.keymaps = config/keymaps</li>
+</ul>
+<p>这是我的配置文件tree</p>
+<p>nvim
+├── init.lua
+└── lua
+├── config
+│   ├── core
+│   │   ├── keymaps.lua
+│   │   └── options.lua
+│   └── lazy.lua
+└── plugins
+├── xxx.lua</p>
+<p>非常简单,config.core文件夹作为neovim的基本配置文件,lazy.lua文件用于lazy.nvim的加载</p>
+<p>plugins文件夹下放置插件</p>
+<h3>核心文件<span class="absolute -mt-20" id="核心文件"></span>
+    <a href="#%e6%a0%b8%e5%bf%83%e6%96%87%e4%bb%b6" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>当然core文件是随意建的,可以不要,也可以改名,只要导入时路径对即可</p>
+<p>keymaps:这里面是改键的映射,我在这里只改了vim的通用按键,插件的按键放到了插件文件里,这个以个人喜好全放到keymaps文件也可以,我是以插件的配置全放到该插件里利于管理</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>vim.g.mapleader <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">local</span> keymap <span style="color:#f92672">=</span> vim.keymap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;i&#34;</span>,<span style="color:#e6db74">&#34;jk&#34;</span>,<span style="color:#e6db74">&#34;&lt;ESC&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- window navigation </span>
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-h&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;h&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-j&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;j&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-k&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;k&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-l&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;l&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-q&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;q&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;v&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C--&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-w&gt;s&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- resize window</span>
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-Up&gt;&#34;</span>,<span style="color:#e6db74">&#34;:resize -2&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-Down&gt;&#34;</span>,<span style="color:#e6db74">&#34;:resize +2&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-Left&gt;&#34;</span>,<span style="color:#e6db74">&#34;:vertical resize -2&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>,<span style="color:#e6db74">&#34;&lt;C-Right&gt;&#34;</span>,<span style="color:#e6db74">&#34;:vertical resize +2&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 缩进</span>
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;v&#34;</span>,<span style="color:#e6db74">&#34;&lt;S-TAB&gt;&#34;</span>,<span style="color:#e6db74">&#34;&lt;gv&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;v&#34;</span>,<span style="color:#e6db74">&#34;&lt;TAB&gt;&#34;</span>,<span style="color:#e6db74">&#34;&gt;gv&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 多行移动</span>
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;v&#34;</span>,<span style="color:#e6db74">&#34;J&#34;</span>,<span style="color:#e6db74">&#34;:m &#39;&gt;+1&lt;CR&gt;gv=gv&#34;</span>)
+</span></span><span style="display:flex;"><span>keymap.set(<span style="color:#e6db74">&#34;v&#34;</span>,<span style="color:#e6db74">&#34;K&#34;</span>,<span style="color:#e6db74">&#34;:m &#39;&lt;-2&lt;CR&gt;gv=gv&#34;</span>)</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>只改了一些通用的配置,如jk换esc, window的移动,resize,缩进按照其他ide的习惯,使用tab</p>
+<p>第一行是设置主键,可以通过&lt; leader&gt;+其他键作为快捷键</p>
+<p>options: 这里面是对vim的配置进行设置</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> opt <span style="color:#f92672">=</span> vim.opt
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 行号</span>
+</span></span><span style="display:flex;"><span>opt.relativenumber <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>opt.number <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 缩进</span>
+</span></span><span style="display:flex;"><span>opt.tabstop <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>opt.shiftwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>opt.expandtab <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>opt.autoindent <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>opt.wrap <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>opt.cursorline <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>opt.clipboard:append(<span style="color:#e6db74">&#34;unnamedplus&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>opt.termguicolors <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>opt.signcolumn <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;yes&#34;</span></span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>都是些常用的设置</p>
+<p>然后在init.lua里导入</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;config.core.keymaps&#34;</span>)
+</span></span><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;config.core.options&#34;</span>)</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h2>lazy.vim的安装<span class="absolute -mt-20" id="lazyvim的安装"></span>
+    <a href="#lazyvim%e7%9a%84%e5%ae%89%e8%a3%85" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p><a href="https://github.com/folke/lazy.nvim" target="_blank" rel="noopener">https://github.com/folke/lazy.nvim</a></p>
+<p>按照官方教程:</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> lazypath <span style="color:#f92672">=</span> vim.fn.stdpath(<span style="color:#e6db74">&#34;data&#34;</span>) <span style="color:#f92672">..</span> <span style="color:#e6db74">&#34;/lazy/lazy.nvim&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> vim.loop.fs_stat(lazypath) <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  vim.fn.system({
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;git&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;clone&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;--filter=blob:none&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;https://github.com/folke/lazy.nvim.git&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;--branch=stable&#34;</span>, <span style="color:#75715e">-- latest stable release</span>
+</span></span><span style="display:flex;"><span>    lazypath,
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>vim.opt.rtp:prepend(lazypath)
+</span></span><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;lazy&#34;</span>).setup(plugins, opts)</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>将这些直接添加到init.lua文件即可</p>
+<p>但是我们使用模块的配置,创建lua.config.lazy.lua文件,将这些复制到该文件,并在init.lua文件中导入</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;lazy&#34;</span>).setup(plugins, opts)</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>再打开nvim时lazy就会加载,不过一开始是在后台加载,可以通过 :Lazy 调出lazy界面</p>
+<h3>插件加载<span class="absolute -mt-20" id="插件加载"></span>
+    <a href="#%e6%8f%92%e4%bb%b6%e5%8a%a0%e8%bd%bd" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;lazy&#34;</span>).setup(
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/which-key.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>      { <span style="color:#e6db74">&#34;folke/neoconf.nvim&#34;</span>, cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Neoconf&#34;</span> },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/neodev.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/which-key.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>      { <span style="color:#e6db74">&#34;folke/neoconf.nvim&#34;</span>, cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Neoconf&#34;</span> },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/neodev.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>)</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>直接将plugins替换为实际的插件,具体怎么写在插件实际用到再说</p>
+<p>但是这样的话插件越来越多,都写在lazy.lua文件下不利于管理</p>
+<p>按照官方的推荐,我们替换lazy启动命令为</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;lazy&#34;</span>).setup({{import <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;plugins&#34;</span>}})</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>与上面的相比,这个在启动时会自动加载lua/plugins文件夹下的所有插件,所以我们创建plugins文件夹,并添加插件</p>
+<p>替换原来的加载方式直接写在setup中,我们可以将下面的写法,通过{{import = &ldquo;plugins&rdquo;}}导入插件配置文件</p>
+<p>以上面的插件为例,可以通过在lua/plugins文件夹下创建which-key.lua文件,文件名随意,里面内容为</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;folke/which-key.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>  { <span style="color:#e6db74">&#34;folke/neoconf.nvim&#34;</span>, cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Neoconf&#34;</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;folke/neodev.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>也就是多了个return</p>
+<p>这样就可以每个插件或多个相同功能的插件放到一个单独文件下进行模块化配置</p>
+<p>多个插件为以下写法,再套一层括号</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/which-key.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>      { <span style="color:#e6db74">&#34;folke/neoconf.nvim&#34;</span>, cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Neoconf&#34;</span> },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/neodev.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/which-key.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>      { <span style="color:#e6db74">&#34;folke/neoconf.nvim&#34;</span>, cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Neoconf&#34;</span> },
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;folke/neodev.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h2>插件<span class="absolute -mt-20" id="插件"></span>
+    <a href="#%e6%8f%92%e4%bb%b6" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>这是我当前用的基本插件</p>
+<ul>
+<li>lualine: 下面的状态栏,好看一点</li>
+<li>bufferline: 上面的已打开的buffer</li>
+<li>nvim-tree: 文件管理器</li>
+<li>主题</li>
+<li>telescope: 文件搜索</li>
+<li>whick-key: 提示快捷键</li>
+<li>mini: 大括号范围提示</li>
+<li>flash: 光标跳转</li>
+<li>comment: 注释</li>
+<li>lsp系列</li>
+<li>dap系列</li>
+</ul>
+<p>我的原则是能不自己写就不自己写,直接抄官方的配置,尽量减少改动</p>
+<p>一般的插件可能没有lazy的配置, 所以需要一些改动</p>
+<h3>lualine<span class="absolute -mt-20" id="lualine"></span>
+    <a href="#lualine" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/nvim-lualine/lualine.nvim" target="_blank" rel="noopener">https://github.com/nvim-lualine/lualine.nvim</a></p>
+<p>
+    <img src="../neovim.assets/image-20231214195623277.png" alt="image-20231214195623277" loading="lazy" /></p>
+<p>packer.nvim</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>use {
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;nvim-lualine/lualine.nvim&#39;</span>,
+</span></span><span style="display:flex;"><span>  requires <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;nvim-tree/nvim-web-devicons&#39;</span>, opt <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span> }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>改为</p>
+<p>use换return</p>
+<p>requires是依赖项, 换dependencies</p>
+<p>opt = true是默认配置,可以不写</p>
+<p>第一行是github的库名</p>
+<p>然后还需要启动,写在config = function里</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>  	<span style="color:#e6db74">&#39;nvim-lualine/lualine.nvim&#39;</span>,
+</span></span><span style="display:flex;"><span>  	dependencies <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;nvim-tree/nvim-web-devicons&#39;</span>}
+</span></span><span style="display:flex;"><span>    opt <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(_,opt)
+</span></span><span style="display:flex;"><span>        require(<span style="color:#e6db74">&#39;lualine&#39;</span>).setup(opt)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>由于opt没写,启动只是默认配置和 require(&rsquo;lualine&rsquo;).setup() 一样</p>
+<p>可以简写为, 使用默认配置</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>  	<span style="color:#e6db74">&#39;nvim-lualine/lualine.nvim&#39;</span>,
+</span></span><span style="display:flex;"><span>  	dependencies <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;nvim-tree/nvim-web-devicons&#39;</span>}
+</span></span><span style="display:flex;"><span>    config <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>如果需要改配置,可写在opt里,或是直接写在setup({})里,需要执行的命令可写在function里</p>
+<h3>bufferline<span class="absolute -mt-20" id="bufferline"></span>
+    <a href="#bufferline" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/akinsho/bufferline.nvim" target="_blank" rel="noopener">https://github.com/akinsho/bufferline.nvim</a></p>
+<p>
+    <img src="../neovim.assets/image-20231214195651015.png" alt="image-20231214195651015" loading="lazy" /></p>
+<p>提供了lazy配置</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#39;akinsho/bufferline.nvim&#39;</span>, 
+</span></span><span style="display:flex;"><span>	version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;*&#34;</span>, 
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;nvim-tree/nvim-web-devicons&#39;</span>
+</span></span><span style="display:flex;"><span>    config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>    	vim.opt.termguicolors <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;bufferline&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>        	options <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				offsets <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						filetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NvimTree&#34;</span>,
+</span></span><span style="display:flex;"><span>						text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;File Explorer&#34;</span>,
+</span></span><span style="display:flex;"><span>						highlight <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Directory&#34;</span>,
+</span></span><span style="display:flex;"><span>						separator <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>, <span style="color:#75715e">-- use a &#34;true&#34; to enable the default, or set your own character</span>
+</span></span><span style="display:flex;"><span>					},
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>       })
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>注意这里启动是多了 vim.opt.termguicolors = true 配置 开启终端真颜色, 可以写在这里,或者options.lua文件里</p>
+<p>按照官方提示See the docs for details <code>:h bufferline.nvim</code></p>
+<p>查找command项, 有关闭buffer的命令, 没找到切换buffer的命令</p>
+<ul>
+<li><code>BufferLineCloseRight</code> - close all visible buffers to the right of the current buffer</li>
+<li><code>BufferLineCloseLeft</code> - close all visible buffers to the left of the current buffer</li>
+<li><code>BufferLineCloseOthers</code> - close all other visible buffers</li>
+</ul>
+<p>在sorting项中找到了,因为原生vim中有切换的操作,不过建议用bufferline的</p>
+<p>When using a sorted bufferline it&rsquo;s advisable that you use the<code>BufferLineCycleNext</code> and <code>BufferLineCyclePrev</code> commands since these will traverse the bufferline bufferlist in order whereas <code>bnext</code> and <code>bprev</code> will cycle buffers according to the buffer numbers given by vim.</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><pre><code>nnoremap &lt;silent&gt;[b :BufferLineCycleNext&lt;CR&gt;
+nnoremap &lt;silent&gt;b] :BufferLineCyclePrev&lt;CR&gt;</code></pre><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>改键切换buffer,这里至改前后切换,其他命令改键类似</p>
+<p>上面那个可能是原生vim的写法, 我们使用neovim的lua方式</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;S-h&gt;&#34;</span>, <span style="color:#e6db74">&#34;:BufferLineCyclePrev&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;S-l&gt;&#34;</span>, <span style="color:#e6db74">&#34;:BufferLineCycleNext&lt;CR&gt;&#34;</span>)</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>在normal (n)模式下,按 shift+h 切换到上一个buffer</p>
+<p>改键配置写的config中或keymaps文件, 我直接写在这了, 最终配置文件为</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;akinsho/bufferline.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;*&#34;</span>,
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nvim-tree/nvim-web-devicons&#34;</span>,
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		vim.opt.termguicolors <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;bufferline&#34;</span>).setup()
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;S-h&gt;&#34;</span>, <span style="color:#e6db74">&#34;:BufferLineCyclePrev&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;S-l&gt;&#34;</span>, <span style="color:#e6db74">&#34;:BufferLineCycleNext&lt;CR&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>nvim-tree<span class="absolute -mt-20" id="nvim-tree"></span>
+    <a href="#nvim-tree" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/nvim-tree/nvim-tree.lua" target="_blank" rel="noopener">https://github.com/nvim-tree/nvim-tree.lua</a></p>
+<p>
+    <img src="../neovim.assets/image-20231214195800749.png" alt="image-20231214195800749" loading="lazy" /></p>
+<p>直接官网的install</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><pre><code>nvim-tree/nvim-tree.lua
+`nvim-tree/nvim-web-devicons` optional, for file icons</code></pre><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>写为</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;nvim-tree/nvim-tree.lua&#34;</span>,
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;nvim-tree/nvim-web-devicons&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>setup照抄到config function,命令看command, 再加一个改键</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;nvim-tree/nvim-tree.lua&#34;</span>,
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;nvim-tree/nvim-web-devicons&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- disable netrw at the very start of your init.lua</span>
+</span></span><span style="display:flex;"><span>		vim.g.loaded_netrw <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		vim.g.loaded_netrwPlugin <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- set termguicolors to enable highlight groups</span>
+</span></span><span style="display:flex;"><span>		vim.opt.termguicolors <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;nvim-tree&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>			sort <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				sorter <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;case_sensitive&#34;</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			view <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				width <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			renderer <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				group_empty <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			filters <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				dotfiles <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;leader&gt;e&#34;</span>, <span style="color:#e6db74">&#34;:NvimTreeToggle&lt;cr&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>主题<span class="absolute -mt-20" id="主题"></span>
+    <a href="#%e4%b8%bb%e9%a2%98" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>我这里用的是tokyonight</p>
+<p><a href="https://github.com/folke/tokyonight.nvim" target="_blank" rel="noopener">https://github.com/folke/tokyonight.nvim</a></p>
+<p>配置照抄,加上启用命令</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;folke/tokyonight.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	lazy <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>	priority <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>	opts <span style="color:#f92672">=</span> {},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		vim.cmd(<span style="color:#e6db74">[[colorscheme tokyonight]]</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>telescope<span class="absolute -mt-20" id="telescope"></span>
+    <a href="#telescope" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>文件搜索</p>
+<p><a href="https://github.com/nvim-telescope/telescope.nvim" target="_blank" rel="noopener">https://github.com/nvim-telescope/telescope.nvim</a></p>
+<p>要功能更强大需要更多依赖</p>
+<p>按照官方的建议,可选依赖</p>
+<ul>
+<li>
+<p><a href="https://github.com/BurntSushi/ripgrep" target="_blank" rel="noopener">BurntSushi/ripgrep</a>,</p>
+</li>
+<li>
+<p><a href="https://github.com/sharkdp/fd" target="_blank" rel="noopener">sharkdp/fd</a> (finder)</p>
+</li>
+<li>
+<p><a href="https://github.com/nvim-treesitter/nvim-treesitter" target="_blank" rel="noopener">nvim-treesitter/nvim-treesitter</a> (finder/preview)</p>
+</li>
+<li>
+<p><a href="https://neovim.io/doc/user/lsp.html" target="_blank" rel="noopener">neovim LSP</a> (picker)</p>
+</li>
+<li>
+<p><a href="https://github.com/nvim-tree/nvim-web-devicons" target="_blank" rel="noopener">devicons</a> (icons)</p>
+</li>
+</ul>
+<p>其中ripgrep和fd通过外部安装,我的是arch pacman即可,其他系统见github页面</p>
+<p>preview因为我的终端太小打不开,使用preview_cutoff = 0, 强制开启, 不过也没啥用, 太小了</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;nvim-telescope/telescope.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	tag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0.1.5&#34;</span>,
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;nvim-lua/plenary.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;nvim-treesitter/nvim-treesitter&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;nvim-tree/nvim-web-devicons&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;telescope&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>			defaults <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				layout_config <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					horizontal <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>						preview_cutoff <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>					},
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> builtin <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;telescope.builtin&#34;</span>)
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;C-p&gt;&#34;</span>, builtin.find_files, {})
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;C-f&gt;&#34;</span>, builtin.live_grep, {})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>which-key<span class="absolute -mt-20" id="which-key"></span>
+    <a href="#which-key" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/folke/which-key.nvim" target="_blank" rel="noopener">https://github.com/folke/which-key.nvim</a></p>
+<p>按下一个键后,提示下一个设置的快捷键, 习惯了就没用了</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;folke/which-key.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	event <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;VeryLazy&#34;</span>,
+</span></span><span style="display:flex;"><span>	init <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		vim.o.timeout <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		vim.o.timeoutlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    opt <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- or</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- config = true</span>
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>flash<span class="absolute -mt-20" id="flash"></span>
+    <a href="#flash" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/folke/flash.nvim" target="_blank" rel="noopener">https://github.com/folke/flash.nvim</a></p>
+<p>光标跳转,非常nb</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;folke/flash.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>  event <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;VeryLazy&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">---@type Flash.Config</span>
+</span></span><span style="display:flex;"><span>  opts <span style="color:#f92672">=</span> {},
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">-- stylua: ignore</span>
+</span></span><span style="display:flex;"><span>  keys <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    { <span style="color:#e6db74">&#34;s&#34;</span>, mode <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;x&#34;</span>, <span style="color:#e6db74">&#34;o&#34;</span> }, <span style="color:#66d9ef">function</span>() require(<span style="color:#e6db74">&#34;flash&#34;</span>).jump() <span style="color:#66d9ef">end</span>, desc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Flash&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#e6db74">&#34;S&#34;</span>, mode <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;x&#34;</span>, <span style="color:#e6db74">&#34;o&#34;</span> }, <span style="color:#66d9ef">function</span>() require(<span style="color:#e6db74">&#34;flash&#34;</span>).treesitter() <span style="color:#66d9ef">end</span>, desc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Flash Treesitter&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#e6db74">&#34;r&#34;</span>, mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;o&#34;</span>, <span style="color:#66d9ef">function</span>() require(<span style="color:#e6db74">&#34;flash&#34;</span>).remote() <span style="color:#66d9ef">end</span>, desc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Remote Flash&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#e6db74">&#34;R&#34;</span>, mode <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;o&#34;</span>, <span style="color:#e6db74">&#34;x&#34;</span> }, <span style="color:#66d9ef">function</span>() require(<span style="color:#e6db74">&#34;flash&#34;</span>).treesitter_search() <span style="color:#66d9ef">end</span>, desc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Treesitter Search&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#e6db74">&#34;&lt;c-s&gt;&#34;</span>, mode <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;c&#34;</span> }, <span style="color:#66d9ef">function</span>() require(<span style="color:#e6db74">&#34;flash&#34;</span>).toggle() <span style="color:#66d9ef">end</span>, desc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Toggle Flash Search&#34;</span> },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>persistence<span class="absolute -mt-20" id="persistence"></span>
+    <a href="#persistence" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>窗口持久化插件,就是关闭vim后,下次打开可以恢复上次的浏览状况,好像用处不大</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;folke/persistence.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	event <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BufReadPre&#34;</span>, <span style="color:#75715e">-- this will only start session saving when an actual file was opened</span>
+</span></span><span style="display:flex;"><span>	lazy <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>	opts <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		dir <span style="color:#f92672">=</span> vim.fn.expand(vim.fn.stdpath(<span style="color:#e6db74">&#34;state&#34;</span>) <span style="color:#f92672">..</span> <span style="color:#e6db74">&#34;/sessions/&#34;</span>), <span style="color:#75715e">-- directory where session files are saved</span>
+</span></span><span style="display:flex;"><span>		options <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;buffers&#34;</span>, <span style="color:#e6db74">&#34;curdir&#34;</span>, <span style="color:#e6db74">&#34;tabpages&#34;</span>, <span style="color:#e6db74">&#34;winsize&#34;</span> }, <span style="color:#75715e">-- sessionoptions used for saving</span>
+</span></span><span style="display:flex;"><span>		pre_save <span style="color:#f92672">=</span> <span style="color:#66d9ef">nil</span>, <span style="color:#75715e">-- a function to call before saving the session</span>
+</span></span><span style="display:flex;"><span>		save_empty <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>, <span style="color:#75715e">-- don&#39;t save if there are no open file buffers</span>
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(_, opts)
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;persistence&#34;</span>).setup(opts)
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- restore the session for the current directory</span>
+</span></span><span style="display:flex;"><span>		vim.api.nvim_set_keymap(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;leader&gt;qs&#34;</span>, <span style="color:#e6db74">[[&lt;cmd&gt;lua require(&#34;persistence&#34;).load()&lt;cr&gt;]]</span>, {})
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- restore the last session</span>
+</span></span><span style="display:flex;"><span>		vim.api.nvim_set_keymap(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;leader&gt;ql&#34;</span>, <span style="color:#e6db74">[[&lt;cmd&gt;lua require(&#34;persistence&#34;).load({ last = true })&lt;cr&gt;]]</span>, {})
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- stop Persistence =&gt; session won&#39;t be saved on exit</span>
+</span></span><span style="display:flex;"><span>		vim.api.nvim_set_keymap(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;leader&gt;qd&#34;</span>, <span style="color:#e6db74">[[&lt;cmd&gt;lua require(&#34;persistence&#34;).stop()&lt;cr&gt;]]</span>, {})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>toggleterm<span class="absolute -mt-20" id="toggleterm"></span>
+    <a href="#toggleterm" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>可以在vim内打开终端,可配合lazygit程序使用</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;akinsho/toggleterm.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;*&#34;</span>,
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;toggleterm&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>			open_mapping <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;C-/&gt;&#34;</span>,
+</span></span><span style="display:flex;"><span>			direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;float&#34;</span>,
+</span></span><span style="display:flex;"><span>			shade_terminals <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> Terminal <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;toggleterm.terminal&#34;</span>).Terminal
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> lazygit <span style="color:#f92672">=</span> Terminal:new({ cmd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lazygit&#34;</span>, hidden <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span> })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_lazygit_toggle</span>()
+</span></span><span style="display:flex;"><span>			lazygit:toggle()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		vim.api.nvim_set_keymap(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;leader&gt;g&#34;</span>, <span style="color:#e6db74">&#34;&lt;cmd&gt;lua _lazygit_toggle()&lt;CR&gt;&#34;</span>, { noremap <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>, silent <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span> })
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>indent-blankline<span class="absolute -mt-20" id="indent-blankline"></span>
+    <a href="#indent-blankline" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>每个缩进都有线标识</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;lukas-reineke/indent-blankline.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	main <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ibl&#34;</span>,
+</span></span><span style="display:flex;"><span>	opts <span style="color:#f92672">=</span> {},
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h2>lsp<span class="absolute -mt-20" id="lsp"></span>
+    <a href="#lsp" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>lsp是语言的后端服务器,可以理解为帮助前端程序提供代码解析,高亮等功能</p>
+<p>其中主要目的就是代码高亮和错误提示</p>
+<p>nvim作为前端没有该功能,需要lsp提供服务</p>
+<p>这里以c++为例,c++的lsp是clang,nvim通过nvim-lspconfig管理lsp配置</p>
+<p>为了方便安装lsp,使用mason作为包管理工具</p>
+<p>nvim-treesitter提供一个简单和容易的方式来使用tree-sitter在Neovim并提供一些基本的功能</p>
+<h3>mason<span class="absolute -mt-20" id="mason"></span>
+    <a href="#mason" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>官方直接抄,输入:Mason打开界面</p>
+<p>mason提供各类安装</p>
+<p>
+    <img src="../neovim.assets/image-20231214211343362.png" alt="image-20231214211343362" loading="lazy" /></p>
+<p>lsp:语言服务器代理,提供语法语义功能</p>
+<p>dap:调试适配协议,提供debug功能</p>
+<p>linter:静态代码分析工具，可以检查代码质量和风格问题</p>
+<p>formatter:格式化工具</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;williamboman/mason.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;mason&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>			ui <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				icons <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					package_installed <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;✓&#34;</span>,
+</span></span><span style="display:flex;"><span>					package_pending <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;➜&#34;</span>,
+</span></span><span style="display:flex;"><span>					package_uninstalled <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;✗&#34;</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>nvim-lspconfig<span class="absolute -mt-20" id="nvim-lspconfig"></span>
+    <a href="#nvim-lspconfig" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/neovim/nvim-lspconfig" target="_blank" rel="noopener">https://github.com/neovim/nvim-lspconfig</a></p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;neovim/nvim-lspconfig&#34;</span>,
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- {</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- 	&#34;folke/neoconf.nvim&#34;,</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- 	cmd = &#34;Neoconf&#34;,</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- 	config = false,</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- 	dependencies = {</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- 		&#34;nvim-lspconfig&#34;,</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- 	},</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- },</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;folke/neodev.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>			opts <span style="color:#f92672">=</span> {},
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;mason.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;williamboman/mason-lspconfig.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> lspconfig <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;lspconfig&#34;</span>)
+</span></span><span style="display:flex;"><span>		lspconfig[<span style="color:#e6db74">&#34;lua_ls&#34;</span>].setup({})
+</span></span><span style="display:flex;"><span>		lspconfig[<span style="color:#e6db74">&#34;clangd&#34;</span>].setup({})
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- Global mappings.</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- See `:help vim.diagnostic.*` for documentation on any of the below functions</span>
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;space&gt;d&#34;</span>, vim.diagnostic.open_float)
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;[d&#34;</span>, vim.diagnostic.goto_prev)
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;]d&#34;</span>, vim.diagnostic.goto_next)
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;space&gt;q&#34;</span>, vim.diagnostic.setloclist)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- Use LspAttach autocommand to only map the following keys</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- after the language server attaches to the current buffer</span>
+</span></span><span style="display:flex;"><span>		vim.api.nvim_create_autocmd(<span style="color:#e6db74">&#34;LspAttach&#34;</span>, {
+</span></span><span style="display:flex;"><span>			group <span style="color:#f92672">=</span> vim.api.nvim_create_augroup(<span style="color:#e6db74">&#34;UserLspConfig&#34;</span>, {}),
+</span></span><span style="display:flex;"><span>			callback <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(ev)
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- Enable completion triggered by &lt;c-x&gt;&lt;c-o&gt;</span>
+</span></span><span style="display:flex;"><span>				vim.bo[ev.buf].omnifunc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;v:lua.vim.lsp.omnifunc&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- Buffer local mappings.</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- See `:help vim.lsp.*` for documentation on any of the below functions</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">local</span> opts <span style="color:#f92672">=</span> { buffer <span style="color:#f92672">=</span> ev.buf }
+</span></span><span style="display:flex;"><span>				vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;gD&#34;</span>, vim.lsp.buf.declaration, opts)
+</span></span><span style="display:flex;"><span>				vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;gd&#34;</span>, vim.lsp.buf.definition, opts)
+</span></span><span style="display:flex;"><span>				vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;K&#34;</span>, vim.lsp.buf.hover, opts)
+</span></span><span style="display:flex;"><span>				vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;gi&#34;</span>, vim.lsp.buf.implementation, opts)
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;C-k&gt;&#34;, vim.lsp.buf.signature_help, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;wa&#34;, vim.lsp.buf.add_workspace_folder, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;wr&#34;, vim.lsp.buf.remove_workspace_folder, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;wl&#34;, function()</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- 	print(vim.inspect(vim.lsp.buf.list_workspace_folders()))</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- end, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;D&#34;, vim.lsp.buf.type_definition, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;rn&#34;, vim.lsp.buf.rename, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set({ &#34;n&#34;, &#34;v&#34; }, &#34;&lt;space&gt;ca&#34;, vim.lsp.buf.code_action, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;gr&#34;, vim.lsp.buf.references, opts)</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;f&#34;, function()</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- 	vim.lsp.buf.format({ async = true })</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">-- end, opts)</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>这里主要是直接抄官方的,加了几个依赖</p>
+<p>mason-lspconfig用来整合lsp和mason</p>
+<p>neodev用来对vim lua的api提示, 主要是没这个vim报警告</p>
+<p>config里是官方的,要注意开头setup的是你自己的lsp,有些map我用不着就注释了</p>
+<p>比如 lspconfig[&ldquo;clangd&rdquo;].setup({})</p>
+<h3>nvim-treesitter<span class="absolute -mt-20" id="nvim-treesitter"></span>
+    <a href="#nvim-treesitter" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/nvim-treesitter/nvim-treesitter" target="_blank" rel="noopener">https://github.com/nvim-treesitter/nvim-treesitter</a></p>
+<p>代码高亮</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;nvim-treesitter/nvim-treesitter&#34;</span>,
+</span></span><span style="display:flex;"><span>	build <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;:TSUpdate&#34;</span>,
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;nvim-treesitter.configs&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>			ensure_installed <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;c&#34;</span>, <span style="color:#e6db74">&#34;c++&#34;</span>, <span style="color:#e6db74">&#34;lua&#34;</span>, <span style="color:#e6db74">&#34;vim&#34;</span>, <span style="color:#e6db74">&#34;vimdoc&#34;</span>, <span style="color:#e6db74">&#34;query&#34;</span> },
+</span></span><span style="display:flex;"><span>			sync_install <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>			auto_install <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>			highlight <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				enable <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>				additional_vim_regex_highlighting <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>rainbow-delimiters<span class="absolute -mt-20" id="rainbow-delimiters"></span>
+    <a href="#rainbow-delimiters" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>括号颜色区分</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;hiphish/rainbow-delimiters.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">-- This module contains a number of default definitions</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">local</span> rainbow_delimiters <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;rainbow-delimiters&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			vim.g.rainbow_delimiters <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				strategy <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					[<span style="color:#e6db74">&#34;&#34;</span>] <span style="color:#f92672">=</span> rainbow_delimiters.strategy[<span style="color:#e6db74">&#34;global&#34;</span>],
+</span></span><span style="display:flex;"><span>					vim <span style="color:#f92672">=</span> rainbow_delimiters.strategy[<span style="color:#e6db74">&#34;local&#34;</span>],
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				query <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					[<span style="color:#e6db74">&#34;&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;rainbow-delimiters&#34;</span>,
+</span></span><span style="display:flex;"><span>					lua <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;rainbow-blocks&#34;</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				priority <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					[<span style="color:#e6db74">&#34;&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">110</span>,
+</span></span><span style="display:flex;"><span>					lua <span style="color:#f92672">=</span> <span style="color:#ae81ff">210</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				highlight <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterRed&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterYellow&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterBlue&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterOrange&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterGreen&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterViolet&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;RainbowDelimiterCyan&#34;</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>	},</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>nvim-cmp<span class="absolute -mt-20" id="nvim-cmp"></span>
+    <a href="#nvim-cmp" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>代码补全</p>
+<p>需要改以下官方的</p>
+<p>Plug &rsquo;neovim/nvim-lspconfig'
+Plug &lsquo;hrsh7th/cmp-nvim-lsp&rsquo;</p>
+<p>这些除了自己全写成依赖</p>
+<p>lua那里全写到function</p>
+<p>然后有4个snip插件,选一个把下面启动的注释删了</p>
+<p>我这里选第二个,因为后面用到了</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><pre><code>offsets = {
+                {
+                    filetype = &#34;NvimTree&#34;,
+                    text = &#34;File Explorer&#34; | function ,
+                    text_align = &#34;left&#34; | &#34;center&#34; | &#34;right&#34;
+                    separator = true
+                }
+            },
+            offsets = {
+        {
+            filetype = &#34;NvimTree&#34;,
+            text = &#34;File Explorer&#34;,
+            highlight = &#34;Directory&#34;,
+            separator = true -- use a &#34;true&#34; to enable the default, or set your own character
+        }
+    }</code></pre><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>cmp也只是个补全的前端,他需要依赖其他源才能补全</p>
+<p>正如依赖中所示有nvim-lsp buffer path cmdline</p>
+<p>我们还可以添加其他源</p>
+<p>官方的源列表: <a href="https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources" target="_blank" rel="noopener">https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources</a></p>
+<p>添加lspkind可提供icon和来源提示</p>
+<p><a href="https://github.com/onsails/lspkind.nvim" target="_blank" rel="noopener">https://github.com/onsails/lspkind.nvim</a></p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> cmp <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#39;cmp&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">local</span> lspkind <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#39;lspkind&#39;</span>)
+</span></span><span style="display:flex;"><span>cmp.setup {
+</span></span><span style="display:flex;"><span>  formatting <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    format <span style="color:#f92672">=</span> lspkind.cmp_format(),
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>最终配置</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;hrsh7th/nvim-cmp&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- event = &#34;InsertEnter&#34;,</span>
+</span></span><span style="display:flex;"><span>	dependencies <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;neovim/nvim-lspconfig&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;hrsh7th/cmp-nvim-lsp&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;hrsh7th/cmp-buffer&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;hrsh7th/cmp-path&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;hrsh7th/cmp-cmdline&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;L3MON4D3/LuaSnip&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;saadparwaiz1/cmp_luasnip&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;rafamadriz/friendly-snippets&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;onsails/lspkind-nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> cmp <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;cmp&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> lspkind <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;lspkind&#34;</span>)
+</span></span><span style="display:flex;"><span>		cmp.setup({
+</span></span><span style="display:flex;"><span>			snippet <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				expand <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(args)
+</span></span><span style="display:flex;"><span>					require(<span style="color:#e6db74">&#34;luasnip&#34;</span>).lsp_expand(args.body) <span style="color:#75715e">-- For `luasnip` users.</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			window <span style="color:#f92672">=</span> {},
+</span></span><span style="display:flex;"><span>			mapping <span style="color:#f92672">=</span> cmp.mapping.preset.insert({
+</span></span><span style="display:flex;"><span>				[<span style="color:#e6db74">&#34;&lt;C-b&gt;&#34;</span>] <span style="color:#f92672">=</span> cmp.mapping.scroll_docs(<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>				[<span style="color:#e6db74">&#34;&lt;C-f&gt;&#34;</span>] <span style="color:#f92672">=</span> cmp.mapping.scroll_docs(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>				[<span style="color:#e6db74">&#34;&lt;C-Space&gt;&#34;</span>] <span style="color:#f92672">=</span> cmp.mapping.complete(),
+</span></span><span style="display:flex;"><span>				[<span style="color:#e6db74">&#34;&lt;C-e&gt;&#34;</span>] <span style="color:#f92672">=</span> cmp.mapping.abort(),
+</span></span><span style="display:flex;"><span>				[<span style="color:#e6db74">&#34;&lt;CR&gt;&#34;</span>] <span style="color:#f92672">=</span> cmp.mapping.confirm({ select <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span> }),
+</span></span><span style="display:flex;"><span>			}),
+</span></span><span style="display:flex;"><span>			sources <span style="color:#f92672">=</span> cmp.config.sources({
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nvim_lsp&#34;</span> },
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;luasnip&#34;</span> }, <span style="color:#75715e">-- For luasnip users.</span>
+</span></span><span style="display:flex;"><span>			}, {
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;buffer&#34;</span> },
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;path&#34;</span> },
+</span></span><span style="display:flex;"><span>			}),
+</span></span><span style="display:flex;"><span>			formatting <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				format <span style="color:#f92672">=</span> lspkind.cmp_format({
+</span></span><span style="display:flex;"><span>					maxwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>, 
+</span></span><span style="display:flex;"><span>					ellipsis_char <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;...&#34;</span>,
+</span></span><span style="display:flex;"><span>				}),
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		cmp.setup.filetype(<span style="color:#e6db74">&#34;gitcommit&#34;</span>, {
+</span></span><span style="display:flex;"><span>			sources <span style="color:#f92672">=</span> cmp.config.sources({
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;git&#34;</span> },
+</span></span><span style="display:flex;"><span>			}, {
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;buffer&#34;</span> },
+</span></span><span style="display:flex;"><span>			}),
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		cmp.setup.cmdline({ <span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#e6db74">&#34;?&#34;</span> }, {
+</span></span><span style="display:flex;"><span>			mapping <span style="color:#f92672">=</span> cmp.mapping.preset.cmdline(),
+</span></span><span style="display:flex;"><span>			sources <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;buffer&#34;</span> },
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		cmp.setup.cmdline(<span style="color:#e6db74">&#34;:&#34;</span>, {
+</span></span><span style="display:flex;"><span>			mapping <span style="color:#f92672">=</span> cmp.mapping.preset.cmdline(),
+</span></span><span style="display:flex;"><span>			sources <span style="color:#f92672">=</span> cmp.config.sources({
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;path&#34;</span> },
+</span></span><span style="display:flex;"><span>			}, {
+</span></span><span style="display:flex;"><span>				{ name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cmdline&#34;</span> },
+</span></span><span style="display:flex;"><span>			}),
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 加载friendly-snippets</span>
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;luasnip.loaders.from_vscode&#34;</span>).lazy_load()
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">-- 加载自己写的snippets 在~/.config/nvim/snippets/cpp.code-snippets文件</span>
+</span></span><span style="display:flex;"><span>        require(<span style="color:#e6db74">&#34;luasnip.loaders.from_vscode&#34;</span>).load_standalone({
+</span></span><span style="display:flex;"><span>			path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./snippets/cpp.code-snippets&#34;</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">local</span> capabilities <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;cmp_nvim_lsp&#34;</span>).default_capabilities()
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;lspconfig&#34;</span>)[<span style="color:#e6db74">&#34;clangd&#34;</span>].setup({
+</span></span><span style="display:flex;"><span>			capabilities <span style="color:#f92672">=</span> capabilities,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h2>dap<span class="absolute -mt-20" id="dap"></span>
+    <a href="#dap" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><h3>nvim-dap<span class="absolute -mt-20" id="nvim-dap"></span>
+    <a href="#nvim-dap" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/mfussenegger/nvim-dap" target="_blank" rel="noopener">https://github.com/mfussenegger/nvim-dap</a></p>
+<p>dap提供代码调试的功能</p>
+<p>具体配置见wiki,每个语言都不一样</p>
+<p>以c++为例,我这里使用vscode-cpptools</p>
+<p>需要安装调试器,可通过mason安装</p>
+<p>command是调试器的bin路径,mason的在~/.local/share/nvim/mason/bin/xxx 这里</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> dap <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#39;dap&#39;</span>)
+</span></span><span style="display:flex;"><span>dap.adapters.lldb <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;executable&#39;</span>,
+</span></span><span style="display:flex;"><span>  command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/usr/bin/lldb-vscode&#39;</span>, <span style="color:#75715e">-- adjust as needed, must be absolute path</span>
+</span></span><span style="display:flex;"><span>  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;lldb&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>dap.configurations.cpp <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Launch&#39;</span>,
+</span></span><span style="display:flex;"><span>    type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;lldb&#39;</span>,
+</span></span><span style="display:flex;"><span>    request <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;launch&#39;</span>,
+</span></span><span style="display:flex;"><span>    program <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> vim.fn.input(<span style="color:#e6db74">&#39;Path to executable: &#39;</span>, vim.fn.getcwd() <span style="color:#f92672">..</span> <span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#e6db74">&#39;file&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    cwd <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;${workspaceFolder}&#39;</span>,
+</span></span><span style="display:flex;"><span>    stopOnEntry <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    args <span style="color:#f92672">=</span> {},
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- 💀</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">--</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">--    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">--</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- Otherwise you might get the following error:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">--</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">--    Error on launch: Failed to attach to the target process</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">--</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- But you should be aware of the implications:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">-- runInTerminal = false,</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>从这里也可以看出,上面指定调试器,下面写调试配置</p>
+<p>还有调试命令, 一般我们需要开始,单行,单步调试,结束,和断点功能,这里写到keys里</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>			{ <span style="color:#e6db74">&#34;&lt;F5&gt;&#34;</span>, <span style="color:#e6db74">&#34;:DapContinue&lt;CR&gt;&#34;</span> },
+</span></span><span style="display:flex;"><span>			{ <span style="color:#e6db74">&#34;&lt;F9&gt;&#34;</span>, <span style="color:#e6db74">&#34;:DapToggleBreakpoint&lt;CR&gt;&#34;</span> },
+</span></span><span style="display:flex;"><span>			{ <span style="color:#e6db74">&#34;&lt;F10&gt;&#34;</span>, <span style="color:#e6db74">&#34;:DapStepOver&lt;CR&gt;&#34;</span> },
+</span></span><span style="display:flex;"><span>			{ <span style="color:#e6db74">&#34;&lt;F11&gt;&#34;</span>, <span style="color:#e6db74">&#34;:DapStepInto&lt;CR&gt;&#34;</span> },
+</span></span><span style="display:flex;"><span>			{ <span style="color:#e6db74">&#34;&lt;S-F11&gt;&#34;</span>, <span style="color:#e6db74">&#34;:DapStepOut&lt;CR&gt;&#34;</span> },
+</span></span><span style="display:flex;"><span>			{ <span style="color:#e6db74">&#34;&lt;F12&gt;&#34;</span>, <span style="color:#e6db74">&#34;:DapTerminate&lt;CR&gt;&#34;</span> },
+</span></span><span style="display:flex;"><span>		},</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>就可以调试了</p>
+<p>使用json文件</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;dap.ext.vscode&#34;</span>).load_launchjs(<span style="color:#66d9ef">nil</span>, { cppdbg <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;cpp&#34;</span> } })</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>nvim-dap-ui<span class="absolute -mt-20" id="nvim-dap-ui"></span>
+    <a href="#nvim-dap-ui" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/rcarriga/nvim-dap-ui" target="_blank" rel="noopener">https://github.com/rcarriga/nvim-dap-ui</a></p>
+<p>
+    <img src="../neovim.assets/191198389-a1321363-c0f1-4ff1-b663-ab1350d2b393.png" alt="https://user-images.githubusercontent.com/24252670/191198389-a1321363-c0f1-4ff1-b663-ab1350d2b393.png" loading="lazy" /></p>
+<p>上面的调试只有原窗口和输出窗口,没有像ide里调试的ui,所以需要dap-ui配合使用</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> dap, dapui <span style="color:#f92672">=</span> require(<span style="color:#e6db74">&#34;dap&#34;</span>), require(<span style="color:#e6db74">&#34;dapui&#34;</span>)
+</span></span><span style="display:flex;"><span>require(<span style="color:#e6db74">&#34;dapui&#34;</span>).setup()
+</span></span><span style="display:flex;"><span>dap.listeners.after.event_initialized[<span style="color:#e6db74">&#34;dapui_config&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>  dapui.open()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>dap.listeners.before.event_terminated[<span style="color:#e6db74">&#34;dapui_config&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>  dapui.close()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>dap.listeners.before.event_exited[<span style="color:#e6db74">&#34;dapui_config&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>  dapui.close()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>他这里注册了一些事件,打开或关闭ui</p>
+<p>我这里遇到了bug,terminated事件不能出发ui关闭,通过注册disconnect事件解决</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span>dap.listeners.after.disconnect[<span style="color:#e6db74">&#34;dapui_config&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		dapui.close()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<h3>nvim-dap-virtual-text<span class="absolute -mt-20" id="nvim-dap-virtual-text"></span>
+    <a href="#nvim-dap-virtual-text" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/theHamsta/nvim-dap-virtual-text" target="_blank" rel="noopener">https://github.com/theHamsta/nvim-dap-virtual-text</a></p>
+<p>
+    <img src="../neovim.assets/image-20231215123609854.png" alt="image-20231215123609854" loading="lazy" /></p>
+<p>这个可以看到提示,配合ui使用</p>
+<h2>code<span class="absolute -mt-20" id="code"></span>
+    <a href="#code" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>这里单独介绍有助于写代码相关的插件</p>
+<h3>comment<span class="absolute -mt-20" id="comment"></span>
+    <a href="#comment" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/numToStr/Comment.nvim" target="_blank" rel="noopener">https://github.com/numToStr/Comment.nvim</a></p>
+<p>加注释</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;numToStr/Comment.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	lazy <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>gc单行注释</p>
+<p>gb多行注释</p>
+<h3>conform<span class="absolute -mt-20" id="conform"></span>
+    <a href="#conform" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/stevearc/conform.nvim" target="_blank" rel="noopener">https://github.com/stevearc/conform.nvim</a></p>
+<p>格式化,其实在lsp里被我注释的就是原生的fomatt接口,他是调用的lsp,也就是clangd的</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;space&gt;f&#34;, function()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">-- 	vim.lsp.buf.format({ async = true })</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- end, opts)</span></span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>我们这里使用clang-format作为fomatter,可以自定义,在mason安装</p>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;stevearc/conform.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	opts <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		formatters_by_ft <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>			lua <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;stylua&#34;</span> },
+</span></span><span style="display:flex;"><span>			cpp <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;clang_format&#34;</span> },
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		format_on_save <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>			timeout_ms <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(_, opts)
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;conform.formatters.clang_format&#34;</span>).args <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;--style={BasedOnStyle: Google, IndentWidth: 4}&#34;</span>,
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;conform&#34;</span>).setup(opts)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+<p>这里注意在自定义参数是 &ndash;style=后不需要用&quot;&ldquo;或&rsquo;&lsquo;把大括号扩起来,会报错,和官方的不太一样</p>
+<p>其他的自定义不如使用.clang-format文件见官网和conform设置</p>
+<p><a href="https://clang.llvm.org/docs/ClangFormat.html" target="_blank" rel="noopener">https://clang.llvm.org/docs/ClangFormat.html</a></p>
+<h3>mini<span class="absolute -mt-20" id="mini"></span>
+    <a href="#mini" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><a href="https://github.com/echasnovski/mini.nvim" target="_blank" rel="noopener">https://github.com/echasnovski/mini.nvim</a></p>
+<p>这是一系列的nvim插件库,我这里用了几个</p>
+<p>这个可以提示括号的范围</p>
+<p>
+    <img src="../neovim.assets/image-20231215124714639.png" alt="image-20231215124714639" loading="lazy" /></p>
+<p>mini.pairs: 括号成对</p>
+<p>mini.surround: 加括号</p>
+<h3>gitsigns<span class="absolute -mt-20" id="gitsigns"></span>
+    <a href="#gitsigns" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>可以提示git</p>
+<h3>trouble<span class="absolute -mt-20" id="trouble"></span>
+    <a href="#trouble" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>这个插件配合lsp使用,可以显示报错</p>
+<h3>coderunnner<span class="absolute -mt-20" id="coderunnner"></span>
+    <a href="#coderunnner" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>和vscode上的差不多,不过默认提供的变量不多,不过可以通过shell获取</p>
+<p>我的需求</p>
+<ul>
+<li>
+<p>指定任意file位置,生成到指定out文件夹</p>
+</li>
+<li>
+<p>指定include文件</p>
+</li>
+</ul>
+<div class="code-block relative mt-6 first:mt-0 group/code"><div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;CRAG666/code_runner.nvim&#34;</span>,
+</span></span><span style="display:flex;"><span>	config <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>()
+</span></span><span style="display:flex;"><span>		require(<span style="color:#e6db74">&#34;code_runner&#34;</span>).setup({
+</span></span><span style="display:flex;"><span>			filetype <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				cpp <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;g++ -g $file --std=c++17 -I $(pwd)/.vscode&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;-o $(pwd)/.vscode/exe/$fileNameWithoutExt.exe&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="color:#e6db74">&#34;&amp;&amp; $(pwd)/.vscode/exe/$fileNameWithoutExt.exe&#34;</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		vim.keymap.set(<span style="color:#e6db74">&#34;n&#34;</span>, <span style="color:#e6db74">&#34;&lt;F5&gt;&#34;</span>, <span style="color:#e6db74">&#34;:RunCode&lt;CR&gt;&#34;</span>, { noremap <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>, silent <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span> })
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;leader&gt;rf&#34;, &#34;:RunFile&lt;CR&gt;&#34;, { noremap = true, silent = false })</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;leader&gt;rft&#34;, &#34;:RunFile tab&lt;CR&gt;&#34;, { noremap = true, silent = false })</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;leader&gt;rp&#34;, &#34;:RunProject&lt;CR&gt;&#34;, { noremap = true, silent = false })</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;leader&gt;rc&#34;, &#34;:RunClose&lt;CR&gt;&#34;, { noremap = true, silent = false })</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;leader&gt;crf&#34;, &#34;:CRFiletype&lt;CR&gt;&#34;, { noremap = true, silent = false })</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">-- vim.keymap.set(&#34;n&#34;, &#34;&lt;leader&gt;crp&#34;, &#34;:CRProjects&lt;CR&gt;&#34;, { noremap = true, silent = false })</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></div><div class="opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0">
+    <button
+      class="code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50"
+      title="Copy code"
+    >
+      <div class="group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4"></div>
+      <div class="hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4"></div>
+    </button>
+  </div>
+</div>
+        </div>
+        <div class="mt-16"></div>
+        
+        <div class="mb-8 flex items-center border-t pt-8 dark:border-neutral-800 contrast-more:border-neutral-400 dark:contrast-more:border-neutral-400 print:hidden"><a
+        href="/blog/hyprland%E8%BD%AF%E4%BB%B6/"
+        title="Hyprland软件"
+        class="flex max-w-[50%] items-center gap-1 py-4 text-base font-medium text-gray-600 transition-colors [word-break:break-word] hover:text-primary-600 dark:text-gray-300 md:text-lg ltr:pr-4 rtl:pl-4"
+      ><svg class="inline h-5 shrink-0 ltr:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>Hyprland软件</a></div>
+        
+      </main>
+    </article>
+  </div>
+
+      <footer class="hextra-footer bg-gray-100 pb-[env(safe-area-inset-bottom)] dark:bg-neutral-900 print:bg-transparent"><div class="mx-auto flex gap-2 py-2 px-4 max-w-screen-xl"><button
+  title="Change theme"
+  data-theme="light"
+  class="theme-toggle group h-7 rounded-md px-2 text-left text-xs font-medium text-gray-600 transition-colors dark:text-gray-400 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-primary-100/5 dark:hover:text-gray-50"
+  type="button"
+  aria-label="Change theme"
+>
+  <div class="flex items-center gap-2 capitalize"><svg height=12 class="group-data-[theme=light]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="group-data-[theme=light]:hidden">Light</span><svg height=12 class="group-data-[theme=dark]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg><span class="group-data-[theme=dark]:hidden">Dark</span></div>
+</button>
+</div><hr class="dark:border-neutral-800" /><div
+    class="max-w-screen-xl mx-auto flex justify-center py-12 pl-[max(env(safe-area-inset-left),1.5rem)] pr-[max(env(safe-area-inset-right),1.5rem)] text-gray-600 dark:text-gray-400 md:justify-start"
+  >
+    <div class="flex w-full flex-col items-center sm:items-start"><div class="font-semibold"><a class="flex text-sm items-center gap-1 text-current" target="_blank" rel="noopener noreferrer" title="Hextra GitHub Homepage" href="https://github.com/imfing/hextra">
+    <span>Powered by Hextra<svg height=1em class="inline-block ml-1 align-[-2.5px]" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="m 105.50024,22.224647 c -9.59169,-5.537563 -21.40871,-5.537563 -31.000093,0 L 39.054693,42.689119 C 29.463353,48.226675 23.55484,58.460531 23.55484,69.535642 v 40.928918 c 0,11.07542 5.908513,21.3092 15.499853,26.84652 l 35.445453,20.46446 c 9.591313,5.53732 21.408404,5.53732 31.000094,0 l 35.44507,-20.46446 c 9.59131,-5.53732 15.49985,-15.7711 15.49985,-26.84652 V 69.535642 c 0,-11.075111 -5.90854,-21.308967 -15.49985,-26.846523 z M 34.112797,85.737639 c -1.384445,2.397827 -1.384445,5.352099 0,7.749927 l 24.781554,42.922974 c 1.38437,2.39783 3.942853,3.87496 6.711592,3.87496 h 49.563107 c 2.76905,0 5.3273,-1.47713 6.71144,-3.87496 l 24.78194,-42.922974 c 1.38414,-2.397828 1.38414,-5.3521 0,-7.749927 L 121.88049,42.814746 c -1.38414,-2.397828 -3.94239,-3.874964 -6.71144,-3.874964 H 65.605944 c -2.768739,0 -5.327223,1.477059 -6.711592,3.874964 z" style="stroke-width:0.774993" /></svg></span>
+  </a></div>
+    </div>
+  </div>
+</footer>
+    
+  </body>
+  <script defer src="/js/main.min.5250a01f9a9cabefdb65e77efc7c04221397882cded9c5c058a5504e730b11b3.js" integrity="sha256-UlCgH5qcq&#43;/bZed&#43;/HwEIhOXiCze2cXAWKVQTnMLEbM="></script>
+
+
+<script defer src="/lib/flexsearch/flexsearch.bundle.min.0425860527cc9968f9f049421c7a56b39327d475e2e3a8f550416be3a9134327.js" integrity="sha256-BCWGBSfMmWj58ElCHHpWs5Mn1HXi46j1UEFr46kTQyc="></script>
+    <script defer src="/en.search.min.9afdc7c586c6f971dd94df10b989f10faaf38e5702571fd8cfc9ff9135c2d495.js" integrity="sha256-mv3HxYbG&#43;XHdlN8QuYnxD6rzjlcCVx/Yz8n/kTXC1JU="></script>
+
+
+</html>

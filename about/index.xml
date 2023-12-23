@@ -1,0 +1,19 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MorrowSol&#39;s blog – </title>
+    <link>https://example.org/about/</link>
+    <description>Recent content on MorrowSol&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 22 Nov 2023 11:45:15 +0800</lastBuildDate>
+    
+	  <atom:link href="https://example.org/about/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+  </channel>
+</rss>
